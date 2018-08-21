@@ -1,0 +1,153 @@
+<html>
+	<head>
+		<title>jQuery Ajax Calendar (jac) from Dublin Arch</title>
+		<meta name="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="description" content="A flexible intellligent calendar plugin for events that gives you total control over the display of your calendar." />
+		<meta name="keywords" content="jquery,calendar,plugin,ajax,responsive" />
+		<meta name="robots" content="index,follow" />
+		<meta name="DC.title" content="Responsive Flexible jQuery Calendar Plugin" />
+
+		<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+		<link href="assets/css/jac.css" rel="stylesheet" type="text/css" />
+	</head>
+	<body>
+		<div class="alert alert-info">
+			<h3>jQuery Ajax Calendar (jac)</h3>
+			jQuery 3.3.1, Bootstrap 4.1.3, moment.js (with locales)
+		</div>
+		<div class="container">
+			<div class="row">
+				<div id="calendar"
+				    data-tz="Australia/Lord Howe"
+				    data-start-week="5"
+				    data-time="2018-08-07T18:35:47Z"
+				    data-weekday-format="dd"
+				    data-day-tpl="cal-day-tpl"
+				    data-event-tpl="cal-event-tpl"
+				    data-calendar-date-format="D"
+				    data-calendar-title-format="MMMM YYYY"
+				    data-other-month-class="other-month text-xs"
+				    data-highlight-today="true"
+				    data-today-highlight-class="today"
+					data-src="http://demo.dublinarch.com/jac-demo.php"
+					class="col-12">
+		            <div class="calendar-header col-12">
+						<div class="row">
+							<div class="col-4 pull-left">
+				                <h1 class="calendar-title"></h1>
+							</div>
+							<div class="col-8 pull-right text-right align-bottom pt-2">
+				                <div class="btn-group" role="group" aria-label="Calendar time controls">
+									<button type="button" class="btn btn-primary cal-btn-prev"><span class="btn-label">&larr;</span>Prev</button>
+									<button type="button" class="btn btn-primary cal-btn-today mr-1 ml-1">Today</button>
+									<button type="button" class="btn btn-primary cal-btn-next">Next<span class="btn-label btn-label-right">&rarr;</span></button>
+								</div>
+							</div>
+						</div>
+		            </div>
+		            <div class="_cal">
+		                <ul class="weekdays">
+		                    <li class="weekday wkdy0"></li>
+		                    <li class="weekday wkdy1"></li>
+		                    <li class="weekday wkdy2"></li>
+		                    <li class="weekday wkdy3"></li>
+		                    <li class="weekday wkdy4"></li>
+		                    <li class="weekday wkdy5"></li>
+		                    <li class="weekday wkdy6"></li>
+		                </ul>
+		                <ul class="days w1">
+		                    <li class="day w1 d1"></li>
+							<li class="day w1 d2"></li>
+							<li class="day w1 d3"></li>
+							<li class="day w1 d4"></li>
+							<li class="day w1 d5"></li>
+							<li class="day w1 d6"></li>
+							<li class="day w1 d7"></li>
+		                </ul>
+		                <ul class="days w2">
+							<li class="day w2 d1"></li>
+							<li class="day w2 d2"></li>
+							<li class="day w2 d3"></li>
+							<li class="day w2 d4"></li>
+							<li class="day w2 d5"></li>
+							<li class="day w2 d6"></li>
+							<li class="day w2 d7"></li>
+		                </ul>
+		                <ul class="days w3">
+							<li class="day w3 d1"></li>
+							<li class="day w3 d2"></li>
+							<li class="day w3 d3"></li>
+							<li class="day w3 d4"></li>
+							<li class="day w3 d5"></li>
+							<li class="day w3 d6"></li>
+							<li class="day w3 d7"></li>
+		                </ul>
+		                <ul class="days w4">
+							<li class="day w4 d1"></li>
+							<li class="day w4 d2"></li>
+							<li class="day w4 d3"></li>
+							<li class="day w4 d4"></li>
+							<li class="day w4 d5"></li>
+							<li class="day w4 d6"></li>
+							<li class="day w4 d7"></li>
+		                </ul>
+		                <ul class="days w5">
+							<li class="day w5 d1"></li>
+							<li class="day w5 d2"></li>
+							<li class="day w5 d3"></li>
+							<li class="day w5 d4"></li>
+							<li class="day w5 d5"></li>
+							<li class="day w5 d6"></li>
+							<li class="day w5 d7"></li>
+		                </ul>
+		                <ul class="days w6">
+							<li class="day w6 d1"></li>
+							<li class="day w6 d2"></li>
+							<li class="day w6 d3"></li>
+							<li class="day w6 d4"></li>
+							<li class="day w6 d5"></li>
+							<li class="day w6 d6"></li>
+							<li class="day w6 d7"></li>
+		                </ul>
+		            </div><!-- /. calendar -->
+				</div>
+			</div>
+		</div>
+		<div id="cal-event-tpl" style="display: none;">
+			<div class="event alert alert-info mr-0 ml-0 d-inline-block">
+				<div class="event-title"></div>
+				<div class="times text-sm">
+					<span class="event-start_time" data-format="h:mm a"></span> - <span class="event-end_time" data-format="h:mm a"></span>
+				</div>
+				<div class="event-location"></div>
+			</div>
+		</div>
+		<div id="cal-day-tpl" style="display: none;">
+			<span class="calendar-date col-12 text-left"></span>
+			<span class="events col-12"></span>
+		</div>
+	</body>
+
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"></script>
+
+	<script src="assets/js/jquery.jac.js"></script>
+
+	<script>
+		$().ready(
+			function()
+			{
+				$( '#calendar' ).jac({
+					startWeek: 5
+				});
+
+				$( 'body' ).on( 'select:day', function( _e ) { alert( 'day selected' ); } );
+				$( 'body' ).on( 'select:event', function( _e ) { alert( 'event selected' ); } );
+				$( 'body' ).on( 'goto:prev', function( _e ) { console.log( 'prev selected' ); } );
+				$( 'body' ).on( 'goto:next', function( _e ) { console.log( 'next selected' ); } );
+				$( 'body' ).on( 'goto:today', function( _e ) { console.log( 'today selected' ); } );
+			}
+		);
+	</script>
+</html>
