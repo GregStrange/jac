@@ -1,2 +1,477 @@
-# jac
-jQuery Ajax Calendar Plugin
+				<h1>jQuery Ajax Calendar (jac) v0.0001</h1>
+				<div class="alert alert-info">
+					jac comes with one example calendar. jac does not care what calendar you use or how it's laid out as long as you have a few classes on a few key elements. The example calendar shows you all the basics and then some.
+				</div>
+				<ul id="doc_tabs" class="nav nav-tabs nav-pills nav-justified" role="tablist">
+					<li class="nav-item"><a href="#install" data-toggle="tab" aria-controls="install" aria-selected="true" class="nav-link active">Install</a></li>
+					<li class="nav-item"><a href="#usage" data-toggle="tab" aria-controls="usage" aria-selected="false" class="nav-link">Usage</a></li>
+					<li class="nav-item"><a href="#classes" data-toggle="tab" aria-controls="classes" aria-selected="false" class="nav-link">Classes</a></li>
+					<li class="nav-item"><a href="#events" data-toggle="tab" aria-controls="events" aria-selected="false" class="nav-link">Events (window, not festive)</a></li>
+				</ul>
+				<div id="doc_tab_contents" class="tab-content">
+					<div id="install" class="tab-pane fade show active" role="tabpanel" aria-labelledby="install-tab">
+						<table class="table table-bordered mt-3">
+							<tbody>
+								<tr>
+									<td>Required Libraries</td>
+									<td>
+										<dl>
+											<dt><strong>jQuery 3.3.1+</strong></dt>
+											<dd>It's in the name so we pretty much are required to use it.  It's all the goodness you've come to know and love.  Nothing works without it.</dd>
+											<dt><strong>moment.js 2.2.2+</strong></dt>
+											<dd>If you're doing anything with dates and you're not using moment.js, you've failed adulting pretty hard. jac uses moment for everything date related.</dd>
+										</dl>
+									</td>
+								</tr>
+								<tr>
+									<td>Optional Libraries</td>
+									<td>
+										<dl>
+											<dt><strong>Bootstrap 4.1.3+</strong></dt>
+											<dd>ikr? Yeah, it is optional. jac does NOT care because jac just cares about the DOM. It's really only included in the example so that the responsive calendar shows up correctly.</dd>
+										</dl>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<h3>Installation</h3>
+						<div>
+							<pre><code class="js">
+    &lt;script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"&gt;&lt;/script&gt;
+    &lt;script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" crossorigin="anonymous"&gt;&lt;/script&gt;
+    &lt;script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment-with-locales.min.js"&gt;&lt;/script&gt;
+
+    &lt;script src="local/path/to/jquery.jac.js" type="text/javascript"&gt;&lt;/script&gt;
+							</code></pre>
+						</div>
+						<div>
+							That's it. You wanted more, maybe? Click on Usage now. Do it. It's the next step.
+						</div>
+					</div>
+					<div id="usage" class="tab-pane fade" role="tabpanel" aria-labelledby="usage-tab">
+						<br />
+						<h3>Initialization</h3>
+						<div>
+							<pre style="margin-left: -30%;"><code class="js">
+								$( '#calendar' ).jac({ <var>options</var> });
+							</code></pre>
+						</div>
+						<div>
+							If we made it any easier, you wouldn't sleep at night charging your clients for this functionality.
+						</div>
+						<br />
+						<h3>Options</h3>
+						<div class="alert alert-info">
+							Options can either be passed as a javascript literal or set as <code>data-*</code> attributes on the invoking element (<code>#calendar</code> above). Passed options always take precedence over <code>data-*</code>.
+						</div>
+						<br />
+						<h5>Required</h5>
+						<table class="table table-bordered mt-3">
+							<thead>
+								<tr>
+									<th>Option</th>
+									<th>Description</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td class="text-nowrap"><code>options.events</code>,<br /><code>options.src</code>,<br /> <code>data-src=""</code></td>
+									<td>
+										One of these three must be present for events to be rendered. jac will still number dates and manage next and previous actions even if you have no events. (watch the console for an error message if none of these are present.) <code><var>options.events</var></code> must be a javascript object literal of events.
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<br />
+						<h5>Defaults</h5>
+						<table class="table table-bordered mt-3">
+							<thead>
+								<tr>
+									<th>Option</th>
+									<th>Description</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td class="text-nowrap"><code>tz</code></td>
+									<td>
+										<code>America/Chicago</code> <cite class="text-xs">(because there isn't <code>'America/BigD'</code>)</cite><br />
+										The timezone is lightly used for locale right now. Use any timezone available to moment.js. Be sure to send your dates and times in UTC (<var>1971-09-01T18:35:47Z</var>) format so that moment() will autoconvert for tz.
+									</td>
+								</tr>
+								<tr>
+									<td class="text-nowrap"><code>startWeek</code></td>
+									<td>
+										<code>0</code><br /><strong>0..6 = Sunday..Saturday</strong>  Put any weekday in there and jac will figure out and number the weeks correctly. (Hello, my muslim semitic friends!)
+									</td>
+								</tr>
+								<tr>
+									<td class="text-nowrap"><code>time</code></td>
+									<td>
+										<code>moment( [<var>options.time</var>|'YYYY-MM-DD'] )</code><br />Pass a moment() object or a date string that can be parsed by moment on creation, e.g., <code>moment( <var>options.time</var> )</code>
+									</td>
+								</tr>
+								<tr>
+									<td class="text-nowrap"><code>weekdayFormat</code></td>
+									<td>
+										<code>dddd</code><br />Use any moment() formatting option.  This is one of the few things jac takes seriously.  He will set the right weekday names based on the <code>options.time</code> and the <code>options.startWeek</code>.
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<br />
+						<h3>Usage (finally!)</h3>
+						<div class="alert alert-info">
+							Generally speaking, HTML is already a templating language, the browser a templating engine. jac understands that and uses it to his advantage. You build your calendar the way you want it. Buy a kick ass calendar template from somewhere and let jac manage it.  jac truly doesn't care about styling, just relationship and position. The display of things that jac controls is still under your control through a (very!) light template engine. You must have three HTML elements for jac to use: a calendar div or wrapper of some kind that will hold your <code>data-*</code>, your day containers, a day template and an event template. These templates can live anywhere on the page but should start hidden.
+						</div>
+						<h6>Calendar</h6>
+						<pre class="mb-0">
+						<code>
+    &lt;!-- #calendar can be anything. You'll pass this element into jac's init, i.e., $( '#calendar' ).jac({ <var>options</var>}) --&gt;
+    &lt;div id="calendar"
+        data-tz="Australia/Lord Howe"
+        data-startWeek="5"
+        data-time="1971-09-01T18:35:47Z"
+        data-weekdayFormat="dd"
+        data-dayTpl="my-cal-tpl"
+        data-eventTpl="my-event-tpl"
+        data-calendarDateFormat="Mo"
+        data-calendarTitleFormat="MMMM YYYY (Qo)"
+        data-otherMonthClass="text-muted text-sm"
+        data-highlightToday="false"
+        data-todayHighlightClass="today"
+        data-events="[
+        {
+            'id': 1,
+            'title': 'Hot Dog Eating (Day)',
+            'image': 'http://via.placeholder.com/68x100',
+            'start_time': '2018-08-06T12:30:00Z',
+            'end_time': '2018-08-06T14:30:00Z',
+            'location': 'Dallas, TX',
+            'description': 'See Takeru Kobayashi wrap another belt around his bulging gut!'
+        },
+        ]"
+    &gt;
+        &lt;!--
+            .calendar-date is optional but .events is not. If you don't have .calendar-date,
+            jac won't number the calendar dates but he will still manage events and prev/next
+            actions for setting month timestamp. If you don't have .events, then, um, you don't have events.
+            If you have multiple .events, they all get populated. This is helpful for multiview calendars.
+        --&gt;
+    &lt;/div&gt;
+    &lt;!-- This calendar markup is just an example markup; jac doesn't care if you use tables, ul, ol, div, or whatever.
+         The most important things to be aware of here are the day, wkdy*, w* and d* classes --&gt;
+    &lt;ul class="weekdays"&gt;
+        &lt;!--
+            wkdy0 does <strong>NOT</strong> refer to the weekday numbering used by moment().
+            It's the index of the week based on startWeek. So, if 5 == startWeek, wkdy0 = 5 and so on;
+        --&gt;
+        &lt;li class="weekday wkdy0"&gt;&lt;/li&gt;
+        &lt;li class="weekday wkdy1"&gt;&lt;/li&gt;
+        &lt;li class="weekday wkdy2"&gt;&lt;/li&gt;
+        &lt;li class="weekday wkdy3"&gt;&lt;/li&gt;
+        &lt;li class="weekday wkdy4"&gt;&lt;/li&gt;
+        &lt;li class="weekday wkdy5"&gt;&lt;/li&gt;
+        &lt;li class="weekday wkdy6"&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+    &lt;!--
+        .days is just a class that you can use to quickly walk the DOM to this week.
+        w1 refers to the week number of the calendar, <strong>NOT</strong> the month.
+        Depending on startWeek, two days which might normally cross over the month week
+        may end up being in the same calendar week.
+    --&gt;
+    &lt;ul class="days w1"&gt;
+        &lt;!--
+            You set these classes on your calendar date containers for jac
+            to use as a guide. Again, d1 does <strong>NOT</strong> refer
+            to moment() weekday numbering. _startWeek changes a bunch of stuff, yo.
+            jac requires .day so he knows where to search for .w*.d* classes and
+            append events to. Whatever is in here when the page loads will be erased
+            when the day template is loaded. You're just making containers for your
+            templates here. Finally, you can just have a one week, three day calendar,
+            if you want to. jac will just ignore the missing date containers.
+        --&gt;
+        &lt;li class="day w1 d1"&gt;&lt;/li&gt;
+        &lt;li class="day w1 d2"&gt;&lt;/li&gt;
+        &lt;li class="day w1 d3"&gt;&lt;/li&gt;
+        &lt;li class="day w1 d4"&gt;&lt;/li&gt;
+        &lt;li class="day w1 d5"&gt;&lt;/li&gt;
+        &lt;li class="day w1 d6"&gt;&lt;/li&gt;
+        &lt;li class="day w1 d7"&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+    &lt;ul class="days w2"&gt;
+        &lt;li class="day w2 d1"&gt;&lt;/li&gt;
+        &lt;li class="day w2 d2"&gt;&lt;/li&gt;
+        &lt;li class="day w2 d3"&gt;&lt;/li&gt;
+        &lt;li class="day w2 d4"&gt;&lt;/li&gt;
+        &lt;li class="day w2 d5"&gt;&lt;/li&gt;
+        &lt;li class="day w2 d6"&gt;&lt;/li&gt;
+        &lt;li class="day w2 d7"&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+    <var>&lt;ul class="days w[3..6]"></var>
+						</code>
+						</pre>
+						<h6>Day Template</h6>
+						<pre class="mb-0">
+						<code>
+    &lt;!-- You can set the id (cal-day-tpl is the default) for this tpl in jac's settings to identify the template. --&gt;
+    &lt;div id="cal-day-tpl" style="display: none;"&gt;
+        &lt;!--
+            .calendar-date is optional but .events is not. If you don't have .calendar-date,
+            jac won't number the calendar dates but he will still manage events and prev/next
+            actions for setting month timestamp. If you don't have .events, then, um, you don't have events.
+            If you have multiple .events, they all get populated. This is helpful for multiview calendars.
+        --&gt;
+        &lt;span class="calendar-date col-12 text-left"&gt;&lt;/span&gt;
+        &lt;span class="events col-12"&gt;&lt;/span&gt;
+    &lt;/div&gt;
+						</code>
+						</pre>
+						<h6 class="mt-0">Event Template</h6>
+						<pre style="margin-bottom: -3%;">
+						<code>
+    &lt;!-- You can set the id (cal-event-tpl is the default) for this tpl in jac's settings to identify the template. --&gt;
+    &lt;div id="cal-event-tpl" style="display: none;"&gt;
+        &lt;!-- The .event class is required on your single event container.  jac will set the event.id as '#event-[id]' on this container. --&gt;
+        &lt;div class="event"&gt;
+	    &lt;!--
+    	    When jac gets your events and he gets this template and starts to fill in values,
+	        he will read the entire event object returned by your script or json file.
+	        Then he uses every key returned as an event-* class and tries to set those values
+	        for you, too.  So, for example, if you need to display something, have your json
+	        return the key like {headline: 'Most Amazing Event Evah!!!111!1!!111'} and jac
+	        will fill .event-headline with that text. Any classes that don't start with event- are ignored.
+	    --&gt;
+            &lt;div class="event-title">&lt;/div&gt;
+            &lt;div class="times text-sm"&gt;
+                &lt;!-- if jac detects a time/date value to insert, he will check for a
+	             desired format on the element it will display in. Use anything moment() uses. --&gt;
+                &lt;span class="event-start_time" data-format="h:mm a"&gt;&lt;/span&gt; - &lt;span class="event-end_time" data-format="h:mm a"&gt;&lt;/span&gt;
+            &lt;/div&gt;
+            &lt;div class="event-location"&gt;&lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+						</code>
+						</pre>
+						<span class="text-muted" style="font-size: .75em;">If you copied all this code into a single html page, you'd have a basic calendar that jac can manage and display events for. Hint, hint.</span>
+						<br />
+						<h3 class="mt-5">Event (festive, not window) Loading</h3>
+						<div class="blockquote">Stop Hectoring me! - Ajax</div>
+						<p>
+							You're probably here because you needed a calendar that could load events from a json source and render them nicely in your calendar. jac makes it pretty darn easy.
+							You can set your src to be a local .json file (the file must be accessible using a URL) or a remote endpoint that returns an array of javascript objects. That's all.
+							You can set the src in the passed <code><var>options</var></code> or as a <code>data-*</code> on the calendar.  Either way, jac queries it for events by appending the date to the request.
+							So, if you have <code>data-src="https://your.endpoint.com/events"</code>, jac appends <code>[?|&amp;]jac-time=[options.time.toISOString()]</code>.
+						</p>
+						<p>
+							Every time you call <code>$( '#calendar' ).jac();</code>, jac requeries for events and renders the entire calendar. So, if you want to change your src, get next months events and render them
+							<pre><code>
+    $( '#calendar' ).data( 'src', 'http://your.otherdomain.com/archived_events' ).data( 'time', moment().add( 1, 'months' ) ).jac();
+							</code></pre>
+							If your src sends events outside of the time display window, they are ignored, so using one monolithic json file is possible, if you want. You can also poke your eyes out with a bacteria-laden, craft-glued, tongue depressor, but I don't recommend that, either.
+						</p>
+						<h4>Passing events in the init object</h4>
+						<p>
+							This will "break" if you are letting your users move forward and back in the calendar. The calendar will be rendered and the dates will be created according to the rules, but as soon as you switch months, the calendar will be empty of events. Mostly, you want to update the data-src on the calendar object with new events to read if you just really have to use a file.
+						</p>
+					</div>
+					<div id="classes" class="tab-pane fade" role="tabpanel" aria-labelledby="classes-tab">
+						<div class="alert alert-info">
+							All the available and required classes are listed below. Not all classes are required (for instance, you don't have to have prev/next buttons)
+						</div>
+						<table class="table table-bordered mt-3">
+							<thead>
+								<tr>
+									<th>Class</th>
+									<th>Scope/Container</th>
+									<th class="text-nowrap">Set By</th>
+									<th>Description</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td class="text-nowrap"><code>.jac-calendar</code></td>
+									<td class="text-nowrap">calendar</td>
+									<td class="text-nowrap">jac</td>
+									<td>
+										jac sets this class to help him find the calendar containers easier.  If no #id is set on the calendar container, jac uses this class to find the calendar and set an #id. <strong>Don't remove it.</strong>
+									</td>
+								</tr>
+								<tr>
+									<td class="text-nowrap"><code>.calendar-title</code></td>
+									<td class="text-nowrap">Any</td>
+									<td class="text-nowrap">You</td>
+									<td>
+										Based on your value for <code>data-calendar-title-format=*</code>, this class container will be filled with the formatted calendar title. See <a href="https://momentjs.com/docs/#/displaying/format/" target="_blank">moment.js docs</a> for formatting dates and passing escaped data for things like making linked titles.
+									</td>
+								</tr>
+								<tr>
+									<td class="text-nowrap"><code>.cal-btn-prev</code></td>
+									<td class="text-nowrap">Any</td>
+									<td class="text-nowrap">You</td>
+									<td>
+										Regresses calendar's <code>data-time="*</code> by one month and gets events (festive, not window). (Set current <code>time</code>'s month date to 1 and then subtract 1 month) Set this class on any HTML element that you want to use as a clickable control.  When jac starts up, he sets a click handler on all elements with this class.  This allows you to have these controls in multiple places like top and bottom, scrollable div, flyout menu, etc.
+									</td>
+								</tr>
+								<tr>
+									<td class="text-nowrap"><code>.cal-btn-next</code></td>
+									<td class="text-nowrap">Any</td>
+									<td class="text-nowrap">You</td>
+									<td>
+										Advances calendar's <code>data-time="*</code> by one month and gets events (festive, not window). (Set current <code>time</code>'s month date to 1 and then add 1 month) Set this class on any HTML element that you want to use as a clickable control.  When jac starts up, he sets a click handler on all elements with this class.  This allows you to have these controls in multiple places like top and bottom, scrollable div, flyout menu, etc.
+									</td>
+								</tr>
+								<tr>
+									<td class="text-nowrap"><code>.cal-btn-today</code></td>
+									<td class="text-nowrap">Any</td>
+									<td class="text-nowrap">You</td>
+									<td>
+										Sets calendar's <code>data-time="*</code> to the current date and gets events (festive, not window). ( just a moment() ) Set this class on any HTML element that you want to use as a clickable control.  When jac starts up, he sets a click handler on all elements with this class.  This allows you to have these controls in multiple places like top and bottom, scrollable div, flyout menu, etc.
+									</td>
+								</tr>
+								<tr>
+									<td class="text-nowrap"><code>.day</code></td>
+									<td class="text-nowrap">Any</td>
+									<td class="text-nowrap">You</td>
+									<td>
+										jac will fire the <code>select:day</code> trigger for any element with this class. In conjunction with .w[1..6] and .d[1..7], you can create a single day display and trigger container.  If you have a container that only has .w* and .d* classes, that container will not fire the <code>select:day</code> trigger.  This allows you to a) remove the option of clicking a day to enter a new event (festive, not window) or b) to have separated entry controls from the calendar display itself.
+									</td>
+								</tr>
+								<tr>
+									<td class="text-nowrap"><code>.w[1..6]</code></td>
+									<td class="text-nowrap">Any</td>
+									<td class="text-nowrap">You</td>
+									<td>
+										jac will count off the days up to 6 weeks when numbering the calendar. This ensures there are enough day containers to display a 5 week month. 1..6 refers to week counting, but not calendar week as used by moment.js.
+									</td>
+								</tr>
+								<tr>
+									<td class="text-nowrap"><code>.w[1..7]</code></td>
+									<td class="text-nowrap">Any</td>
+									<td class="text-nowrap">You</td>
+									<td>
+										jac will insert the template found at <code>data-day-tpl=*</code> into this container. The day template must live in the same page as the calendar.
+									</td>
+								</tr>
+								<tr>
+									<td class="text-nowrap"><code>.jac-[YYYYMMDD]</code></td>
+									<td class="text-nowrap">.w[?].d[?]</td>
+									<td class="text-nowrap">jac</td>
+									<td>
+										jac adds this date to the day container for the corresponding <code>.w[1..6].d[1..7]</code> container <strong><cite>AFTER</cite></strong> everything is set and configured correctly for the day. If this class is not set, jac didn't find the day classes for that day. This allows you to easily query into events for a particular day.
+										<pre><code>
+    var queryDate = '20180805';
+    $( '.jac-' + queryDate + '.events' ).each(
+        function()
+        {
+            // Do something awesome with all these events!
+        });
+										</code></pre>
+									</td>
+								</tr>
+								<tr>
+									<td class="text-nowrap"><code>.events</code></td>
+									<td class="text-nowrap">.w[1..6].d[1..7]</td>
+									<td class="text-nowrap">You</td>
+									<td>
+										This class must be on a contianer for jac to fill in the events into. Make sure you add this class to your <code>data-event-tpl=*</code> so that when jac inserts it, the events container already exists.
+									</td>
+								</tr>
+								<tr>
+									<td class="text-nowrap"><code>.event</code></td>
+									<td class="text-nowrap">.events</td>
+									<td class="text-nowrap">You</td>
+									<td>
+										You must have this class on the container for an individual event. jac will look in this container for all <code>.event-*</code> to populate from the event object returned from the json source. jac will also set the <code>#event-[1..]</code> based on the event-id passed in the json object on this container.
+									</td>
+								</tr>
+
+							</tbody>
+						</table>
+					</div>
+					<div id="events" class="tab-pane fade" role="tabpanel" aria-labelledby="events-tab">
+						<div class="alert alert-info">
+							jac tells you alot about what he's doing as he does it if you care to know. All triggers are fired from the <code>body</code> tag to make it easier to listen to.  An example of listening for custom events is below but you can also check out the <a href="http://api.jquery.com/on/" target="_blank">jquery documentation</a>.
+						</div>
+						<pre><code>
+    $( 'body' ).on( '[trigger scope]', function( _windowNotFestiveEvent ) { console.log( _windowNotFestiveEvent ); } );
+						</code></pre>
+						<table class="table table-bordered mt-3">
+							<thead>
+								<tr>
+									<th>Trigger Scope</th>
+									<th>Scope/Container</th>
+									<th>Description</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td class="text-nowrap"><code>select:day</code></td>
+									<td class="text-nowrap">body</td>
+									<td>
+										jac will set this event to fire when the attached container is clicked.
+									</td>
+								</tr>
+								<tr>
+									<td class="text-nowrap"><code>select:event</code></td>
+									<td class="text-nowrap">body</td>
+									<td>
+										jac will set this event to fire when the attached container is clicked.
+									</td>
+								</tr>
+								<tr>
+									<td class="text-nowrap"><code>goto:prev</code></td>
+									<td class="text-nowrap">body</td>
+									<td>
+										jac will set this event to fire when the attached container is clicked.
+									</td>
+								</tr>
+								<tr>
+									<td class="text-nowrap"><code>goto:next</code></td>
+									<td class="text-nowrap">body</td>
+									<td>
+										jac will set this event to fire when the attached container is clicked.
+									</td>
+								</tr>
+								<tr>
+									<td class="text-nowrap"><code>goto:today</code></td>
+									<td class="text-nowrap">body</td>
+									<td>
+										jac will set this event to fire when the attached container is clicked.
+									</td>
+								</tr>
+								<tr>
+									<td class="text-nowrap"><code>number:date</code></td>
+									<td class="text-nowrap">body</td>
+									<td>
+										Fires after date is numbered and <code>.w?.d?</code> is completed. Returns the selector, the date and whether the container <code>isToday</code>.
+									</td>
+								</tr>
+								<tr>
+									<td class="text-nowrap"><code>render:event:before</code></td>
+									<td class="text-nowrap">body</td>
+									<td>
+										Fires after all manipulations have been performed on the prepared event object but before insertion. Returns the manipulated event json object.
+									</td>
+								</tr>
+								<tr>
+									<td class="text-nowrap"><code>render:event</code></td>
+									<td class="text-nowrap">body</td>
+									<td>
+										This event fires after the <code>data-event-tpl=*</code> is loaded and merged with the event json object at the moment of insertion.
+									</td>
+								</tr>
+								<tr>
+									<td class="text-nowrap"><code>render:event:after</code></td>
+									<td class="text-nowrap">body</td>
+									<td>
+										Fires after the insertion of the <code>data-event-tpl=*</code>. Returns the manipulated event json object.
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- /#page-content-wrapper -->
